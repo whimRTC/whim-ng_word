@@ -22,6 +22,9 @@ export default {
       if (curr > 1000) {
         clearInterval(update);
         this.finishVoting();
+        // 他の人が終わらせた場合
+      } else if (this.$store.getters.phase !== "voting") {
+        clearInterval(update);
       }
       progressBar.value = curr++;
     }, 20);
@@ -29,9 +32,7 @@ export default {
   methods: {
     finishVoting() {
       // 二重の遷移が起こらないように
-      if (this.$store.getters.phase === "voting") {
-        this.$store.dispatch("phase", "disclosuring");
-      }
+      this.$store.dispatch("phase", "disclosuring");
     }
   }
 };
