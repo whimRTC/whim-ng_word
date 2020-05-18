@@ -1,5 +1,5 @@
 <template>
-  <div class="container" @click="vote">
+  <div class="container" :class="containerClass" @click="vote">
     <div v-if="status === 'hidden'" class="card hidden">
       <img :src="require('@/assets/wolf_icon.svg')" width="40" class="img" />
     </div>
@@ -15,6 +15,12 @@
       <span class="text--subtitle">{{
         $store.state.appState.userTopic[displayUser.id]
       }}</span>
+    </div>
+    <div class="vote text--title" :class="voted ? 'voted' : ''">
+      {{ voted ? "投票済み" : "投票する" }}
+    </div>
+    <div class="names">
+      <div v-for="name in votedNames" :key="name" class="name">{{ name }}</div>
     </div>
   </div>
 </template>
@@ -44,18 +50,59 @@ export default {
           return "visible";
         }
       }
-
       return "hidden";
+    },
+    voted() {
+      return this.$store.state.appState.votes?.some(
+        vote =>
+          vote.from === this.$store.state.accessUserId &&
+          vote.to === this.displayUser.id
+      );
+    },
+    votedNames() {
+      const votes = this.$store.state.appState.votes;
+      if (!votes || this.$store.getters.phase === "voting") {
+        return [];
+      }
+
+      return votes
+        .filter(vote => vote.to === this.displayUser.id)
+        .map(
+          vote =>
+            this.$store.state.users.find(user => user.id === vote.from).name
+        );
+    },
+    containerClass() {
+      if (this.$store.getters.phase === "voting") {
+        if (this.voted) {
+          return "voted";
+        }
+        if (
+          this.$store.state.appState.votes?.some(
+            vote => vote.from === this.$store.state.accessUserId
+          )
+        ) {
+          return "";
+        }
+        return "voting";
+      }
+      return "";
     }
   },
   methods: {
     vote() {
-      if (this.$store.getters.phase === "voting") {
-        console.log("vote");
+      if (this.$store.getters.phase === "voting" && !this.voted) {
         this.$store.dispatch("vote", {
           from: this.$store.state.accessUserId,
           to: this.displayUser.id
         });
+        // 終了判定
+        if (
+          this.$store.state.appState.votes.length >=
+          this.$store.state.users.length
+        ) {
+          this.$store.dispatch("phase", "disclosuring");
+        }
       }
     }
   }
@@ -63,9 +110,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.vote {
+  display: none;
+  color: white;
+}
+
+.voted {
+  background: rgba(0, 0, 0, 0.4);
+  .vote {
+    display: block;
+  }
+}
+
+.voting {
+  &:hover {
+    background: rgba(0, 0, 0, 0.4);
+    .vote {
+      display: block;
+    }
+  }
+}
+
 .card {
-  margin: 100px auto;
-  width: 200px;
+  margin: 80px auto;
+  width: 300px;
   height: 50px;
 
   border-radius: 4px;
@@ -74,7 +142,7 @@ export default {
   text-align: center;
 
   .shuffling {
-    width: 200px;
+    width: 300px;
     height: 50px;
   }
 }
@@ -96,5 +164,20 @@ export default {
   margin: auto; /*上下左右中央に*/
   width: 40px; /*widthの指定は必須*/
   height: 40px; /*heightの指定は必須*/
+}
+.names {
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.name {
+  background: rgba(256, 256, 256, 0.4);
+  border-radius: 8px;
+  border: medium solid #000000;
+  margin: 0px;
+  font-size: 20px;
+  width: 200px;
 }
 </style>

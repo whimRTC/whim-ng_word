@@ -1,46 +1,46 @@
 <template>
   <div>
-    <div class="text--subtitle title">ウルフだと思うプレイヤー画面を選択しよう。</div>
+    <div class="text--subtitle title">
+      ウルフだと思うプレイヤー画面を選択しよう。
+    </div>
 
-    <progress id='video-progress' min='0' max='1000' value=''></progress>
+    <progress id="video-progress" min="0" max="1000" value=""></progress>
   </div>
 </template>
 
 <script>
-
-
 export default {
-  name: 'Discussing',
+  name: "Discussing",
   data() {
-    return {
-    }
+    return {};
   },
-  mounted(){
-    var progressBar = document.getElementById('video-progress');
+  mounted() {
+    var progressBar = document.getElementById("video-progress");
 
-      var curr = progressBar.value;
-      var update = setInterval(() => {
-        if (curr > 1000) {
-          clearInterval(update);
-          this.finishVoting()
-        }
-        progressBar.value = curr++;
-      }, 20)
+    var curr = progressBar.value;
+    var update = setInterval(() => {
+      if (curr > 1000) {
+        clearInterval(update);
+        this.finishVoting();
+      }
+      progressBar.value = curr++;
+    }, 20);
   },
   methods: {
-    finishVoting(){
-      this.$store.dispatch('phase', 'disclosuring')
-    },
-  },
-  
-}
+    finishVoting() {
+      // 二重の遷移が起こらないように
+      if (this.$store.getters.phase === "voting") {
+        this.$store.dispatch("phase", "disclosuring");
+      }
+    }
+  }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-
 .title {
-  margin: 10px
+  margin: 10px;
 }
 
 #video-progress {

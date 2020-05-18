@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="text--subtitle">多数派の勝利</div>
+    <div class="text--subtitle">{{ result }}</div>
     <a class="fuwatto_btn_yellow" @click="reset">もう一度</a>
   </div>
 </template>
@@ -11,6 +11,36 @@ export default {
   methods: {
     reset() {
       this.$store.dispatch("resetAppState");
+    }
+  },
+  computed: {
+    result() {
+      const votesCount = user => {
+        return this.$store.state.appState.votes.filter(
+          vote => vote.to === user.id
+        ).length;
+      };
+
+      let max = 0;
+      let maxUsers = [];
+      this.$store.state.users.forEach(user => {
+        if (votesCount(user) > max) {
+          console.log(votesCount(user));
+          max = votesCount(user);
+          maxUsers = [user];
+        } else if (votesCount(user) === max) {
+          maxUsers.push(user);
+        }
+      });
+      console.log(max);
+      console.log(maxUsers);
+      if (maxUsers.length >= 2) {
+        return "引き分け！";
+      }
+      if (maxUsers[0].id === this.$store.state.appState.minorityUserId) {
+        return "市民(多数派)の勝ち！";
+      }
+      return "ウルフ(少数派)の勝ち！";
     }
   }
 };
