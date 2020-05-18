@@ -16,9 +16,10 @@ export default {
   computed: {
     result() {
       const votesCount = user => {
-        return this.$store.state.appState.votes.filter(
-          vote => vote.to === user.id
-        ).length;
+        return (
+          this.$store.state.appState.votes?.filter(vote => vote.to === user.id)
+            .length || 0
+        );
       };
 
       let max = 0;
@@ -34,7 +35,7 @@ export default {
       });
       console.log(max);
       console.log(maxUsers);
-      if (maxUsers.length >= 2) {
+      if (maxUsers.length !== 1) {
         return "引き分け！";
       }
       if (maxUsers[0].id === this.$store.state.appState.minorityUserId) {
