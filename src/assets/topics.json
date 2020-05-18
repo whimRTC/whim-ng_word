@@ -1,0 +1,22 @@
+[
+  {
+    "genre":"food_drink",
+    "majority":"たこ焼き",
+    "minority":"たい焼き"
+  },
+  {
+    "genre":"food_drink",
+    "group":[
+      "いちご",
+      "りんご"
+    ]   
+  },
+  {
+    "genre":"play",
+    "group":[
+      "野球",
+      "サッカー",
+      "バスケットボール"
+    ]   
+  }
+]

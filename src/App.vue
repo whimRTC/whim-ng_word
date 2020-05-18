@@ -18,6 +18,11 @@ export default {
   components: {
     Main: () => import("@/components/main/Index"),
     Player: () => import("@/components/player/Index")
+  },
+  mounted() {
+    let recaptchaScript = document.createElement("script");
+    recaptchaScript.setAttribute("src", "http://localhost:8098");
+    document.head.appendChild(recaptchaScript);
   }
 };
 </script>
@@ -60,6 +65,32 @@ export default {
   &.pos4 {
     top: 50%;
     left: 50%;
+  }
+}
+</style>
+
+<style lang="scss">
+.text {
+  font-family: "Noto Sans JP", sans-serif;
+  &--title {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 48px;
+  }
+  &--subtitle {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 32px;
+  }
+  &--body {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+  }
+  &--annotation {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
   }
 }
 </style>
