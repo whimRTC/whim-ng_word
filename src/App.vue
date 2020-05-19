@@ -20,9 +20,10 @@ export default {
     Player: () => import("@/components/player/Index")
   },
   mounted() {
-    let recaptchaScript = document.createElement("script");
-    recaptchaScript.setAttribute("src", "http://localhost:8098");
-    document.head.appendChild(recaptchaScript);
+    // for standalone devtools
+    // let recaptchaScript = document.createElement("script");
+    // recaptchaScript.setAttribute("src", "http://localhost:8098");
+    // document.head.appendChild(recaptchaScript);
   }
 };
 </script>

@@ -3,14 +3,9 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
-// 情報の登録
-const setAppState = appState => {
-  window.parent.postMessage({ appState }, document.referrer);
-};
-
 const topics = require("@/assets/topics.json");
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
     room: {}, // room information
     users: [], // information of users in the room
@@ -28,18 +23,21 @@ export default new Vuex.Store({
     },
     setAccessUserId(state, userId) {
       state.accessUserId = userId;
+    },
+    setAppState(state, appState) {
+      state.appState = appState;
     }
   },
   actions: {
-    updateAppState({ state }, obj) {
+    appState({ state }, obj) {
       let appState = state.appState;
       Object.keys(obj).forEach(key => {
         appState[key] = obj[key];
       });
-      setAppState(appState);
+      postAppState(appState);
     },
     resetAppState() {
-      setAppState({});
+      postAppState({});
     },
     // put original actions here
     start({ state }, genre) {
@@ -79,16 +77,16 @@ export default new Vuex.Store({
       userTopic[minorityUserId] = minority;
       appState.userTopic = userTopic;
       appState.minorityUserId = minorityUserId;
-      setAppState(appState);
+      postAppState(appState);
     },
     phase({ dispatch }, phase) {
-      dispatch("updateAppState", { phase });
+      dispatch("appState", { phase });
     },
     vote({ state }, { from, to }) {
       let appState = state.appState;
       appState.votes = appState.votes || [];
       appState.votes.push({ from, to });
-      setAppState(appState);
+      postAppState(appState);
     }
   },
   getters: {
@@ -99,6 +97,14 @@ export default new Vuex.Store({
       return state.appState.phase;
     }
     // put original getters here
-  },
-  modules: {}
+  }
 });
+
+// appStateの更新、clinet & server
+// It will be called from actions
+const postAppState = appState => {
+  store.commit("setAppState", appState);
+  window.parent.postMessage({ appState }, document.referrer);
+};
+
+export default store;
