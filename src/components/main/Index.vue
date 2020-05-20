@@ -1,10 +1,8 @@
 <template>
   <div>
     <Shuffling v-if="phase === 'shuffling'" />
-    <Discussing v-else-if="phase === 'discussing'" />
-    <Voting v-else-if="phase === 'voting'" />
-    <Disclosuring v-else-if="phase === 'disclosuring'" />
-    <Result v-else-if="phase === 'result'" />
+    <Playing v-else-if="phase === 'playing'" />
+    <Answer v-else-if="phase === 'answer'" />
     <GenreSelection v-else />
   </div>
 </template>
@@ -14,10 +12,8 @@ export default {
   components: {
     GenreSelection: () => import("@/components/main/GenreSelection"),
     Shuffling: () => import("@/components/main/Shuffling"),
-    Discussing: () => import("@/components/main/Discussing"),
-    Disclosuring: () => import("@/components/main/Disclosuring"),
-    Voting: () => import("@/components/main/Voting"),
-    Result: () => import("@/components/main/Result")
+    Playing: () => import("@/components/main/Playing"),
+    Answer: () => import("@/components/main/Answer")
   },
   computed: {
     phase() {

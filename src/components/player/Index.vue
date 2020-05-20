@@ -1,26 +1,15 @@
 <template>
   <div class="container" :class="containerClass" @click="vote">
     <div v-if="status === 'hidden'" class="card hidden">
-      <img :src="require('@/assets/wolf_icon.svg')" width="40" class="img" />
+      NGワード
     </div>
     <div v-else-if="status === 'shuffling'" class="card">
       <img :src="require('@/assets/shuffling.gif')" class="shuffling" />
     </div>
     <div v-else-if="status === 'visible'" class="card">
       <span class="text--subtitle">{{
-        $store.state.appState.userTopic[displayUser.id]
+        appState.ngWord[displayUser.id]
       }}</span>
-    </div>
-    <div v-else-if="status === 'wolf'" class="card wolf">
-      <span class="text--subtitle">{{
-        $store.state.appState.userTopic[displayUser.id]
-      }}</span>
-    </div>
-    <div class="vote text--title" :class="voted ? 'voted' : ''">
-      {{ voted ? "投票済み" : "投票する" }}
-    </div>
-    <div class="names">
-      <div v-for="name in votedNames" :key="name" class="name">{{ name }}</div>
     </div>
   </div>
 </template>
@@ -29,26 +18,22 @@ export default {
   name: "Player",
   props: ["displayUser"], // 表示されているUserの情報
   computed: {
+    phase() {
+      return this.$store.getters.phase
+    },
+    isMe() {
+      return this.displayUser.id === this.$store.getters.accessUser.id
+    },
+    appState() {
+      return this.$store.state.appState
+    },
     status() {
       console.log(this.$store.getters.accessUser);
       if (this.$store.getters.phase === "shuffling") {
         return "shuffling";
       }
-      if (
-        (this.$store.getters.phase === "discussing" ||
-          this.$store.getters.phase === "voting" ||
-          this.$store.getters.phase === "disclosuring") &&
-        this.$store.getters.accessUser === this.displayUser
-      ) {
+      if  (this.phase === "playing" && !this.isMe || this.phase === "answer" ) {
         return "visible";
-      }
-
-      if (this.$store.getters.phase === "result") {
-        if (this.$store.state.appState.minorityUserId === this.displayUser.id) {
-          return "wolf";
-        } else {
-          return "visible";
-        }
       }
       return "hidden";
     },

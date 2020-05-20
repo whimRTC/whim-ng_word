@@ -3,7 +3,15 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
-const topics = require("@/assets/topics.json");
+const ngWordPatterns = require("@/assets/ng_word_patterns.json");
+
+const shuffle = ([...array]) => {
+  for (let i = array.length - 1; i >= 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
 
 const store = new Vuex.Store({
   state: {
@@ -40,43 +48,18 @@ const store = new Vuex.Store({
       postAppState({});
     },
     // put original actions here
-    start({ state }, genre) {
-      let appState = state.room.appState || {};
-      appState.genre = genre;
-      appState.phase = "shuffling";
-
-      // topicの選択
-      let targetTopics;
-      if (genre === "random") {
-        targetTopics = topics;
-      } else {
-        targetTopics = topics.filter(topic => topic.genre === genre);
-      }
-      const topic =
-        targetTopics[Math.floor(Math.random() * targetTopics.length)];
-
-      let majority, minority;
-      if (topic.group) {
-        const selected = topic.group
-          .sort(() => 0.5 - Math.random())
-          .slice(0, 2);
-        majority = selected[0];
-        minority = selected[1];
-      } else if (topic.majority && topic.minority) {
-        majority = topic.majority;
-        minority = topic.minority;
-      } else {
-        console.error("invalid json");
-      }
-      let userTopic = {};
-      state.users.map(user => {
-        userTopic[user.id] = majority;
+    start({ state }) {
+      const ngWordPattern = shuffle(
+        ngWordPatterns[Math.floor(Math.random() * ngWordPatterns.length)]
+      );
+      let ngWord = {};
+      state.users.forEach(function(user, i) {
+        ngWord[user.id] = ngWordPattern[i];
       });
-      const minorityUserId =
-        state.users[Math.floor(Math.random() * state.users.length)].id;
-      userTopic[minorityUserId] = minority;
-      appState.userTopic = userTopic;
-      appState.minorityUserId = minorityUserId;
+
+      let appState = state.appState;
+      appState.phase = "shuffling";
+      appState.ngWord = ngWord;
       postAppState(appState);
     },
     phase({ dispatch }, phase) {

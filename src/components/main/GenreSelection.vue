@@ -1,36 +1,10 @@
 <template>
   <div>
-    <div class="select">
-      <img
-        :src="require('../../assets/menu-left.svg')"
-        class="icon"
-        @click="prev"
-      />
-      <div class="select_text text--subtitle">{{ genreJa }}</div>
-      <img
-        :src="require('../../assets/menu-right.svg')"
-        class="icon"
-        @click="next"
-      />
-    </div>
     <a class="fuwatto_btn_yellow" @click="start">スタート</a>
   </div>
 </template>
 
 <script>
-const genres = {
-  random: {
-    ja: "ランダム"
-  },
-  love: {
-    ja: "恋愛"
-  },
-  food_drink: {
-    ja: "食べ飲み物"
-  }
-};
-const genreList = ["random", "love", "food_drink"];
-
 export default {
   name: "GenreSelection",
   props: {
@@ -41,30 +15,9 @@ export default {
       genre: "random"
     };
   },
-  computed: {
-    genreJa() {
-      return genres[this.genre]?.ja;
-    }
-  },
   methods: {
-    next() {
-      this.genre =
-        genreList[
-          (genreList.findIndex(genre => genre == this.genre) + 1) %
-            genreList.length
-        ];
-    },
-    prev() {
-      this.genre =
-        genreList[
-          (genreList.findIndex(genre => genre == this.genre) -
-            1 +
-            genreList.length) %
-            genreList.length
-        ];
-    },
     start() {
-      this.$store.dispatch("start", this.genre);
+      this.$store.dispatch("start");
     }
   }
 };
@@ -103,7 +56,7 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 100px;
+  width: 140px;
   text-align: center; /*一応BOX内の文字も中央寄せ*/
 }
 .fuwatto_btn_yellow:hover {
