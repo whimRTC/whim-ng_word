@@ -1,7 +1,7 @@
 {
   "hosting": [
     {
-      "site": "whim-word-wolf",
+      "site": "whim-ng-word",
       "public": "dist",
       "ignore": [
         "firebase.json",
