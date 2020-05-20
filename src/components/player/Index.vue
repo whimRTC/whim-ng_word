@@ -1,15 +1,13 @@
 <template>
   <div class="container" :class="containerClass" @click="vote">
     <div v-if="status === 'hidden'" class="card hidden">
-      NGワード
+      <span class="text--subtitle"> NGワード</span>
     </div>
     <div v-else-if="status === 'shuffling'" class="card">
       <img :src="require('@/assets/shuffling.gif')" class="shuffling" />
     </div>
     <div v-else-if="status === 'visible'" class="card">
-      <span class="text--subtitle">{{
-        appState.ngWord[displayUser.id]
-      }}</span>
+      <span class="text--subtitle">{{ appState.ngWord[displayUser.id] }}</span>
     </div>
   </div>
 </template>
@@ -19,20 +17,20 @@ export default {
   props: ["displayUser"], // 表示されているUserの情報
   computed: {
     phase() {
-      return this.$store.getters.phase
+      return this.$store.getters.phase;
     },
     isMe() {
-      return this.displayUser.id === this.$store.getters.accessUser.id
+      return this.displayUser.id === this.$store.getters.accessUser.id;
     },
     appState() {
-      return this.$store.state.appState
+      return this.$store.state.appState;
     },
     status() {
       console.log(this.$store.getters.accessUser);
       if (this.$store.getters.phase === "shuffling") {
         return "shuffling";
       }
-      if  (this.phase === "playing" && !this.isMe || this.phase === "answer" ) {
+      if ((this.phase === "playing" && !this.isMe) || this.phase === "answer") {
         return "visible";
       }
       return "hidden";

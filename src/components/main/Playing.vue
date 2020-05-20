@@ -3,7 +3,7 @@
     <div class="text--subtitle title">投票まで</div>
     <countdown
       :time="3 * 60 * 1000"
-      @end="startVoting"
+      @end="goAnswer"
       class="countdown"
       :transform="transform"
       ref="countdown"
