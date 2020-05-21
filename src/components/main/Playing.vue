@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="text--subtitle title">投票まで</div>
+    <div class="text--subtitle title">タイムリミットまで</div>
     <countdown
-      :time="3 * 60 * 1000"
+      :time="10 * 60 * 1000"
       @end="goAnswer"
       class="countdown"
       :transform="transform"
