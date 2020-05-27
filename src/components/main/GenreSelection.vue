@@ -17,7 +17,7 @@ export default {
   },
   methods: {
     start() {
-      this.$store.dispatch("start");
+      this.$gameStart();
     }
   }
 };

@@ -9,7 +9,9 @@ export default {
   name: "Shuffling",
   mounted() {
     setTimeout(() => {
-      this.$store.dispatch("phase", "playing");
+      this.$whim.assignState({
+        phase: "playing"
+      });
     }, 2000);
   }
 };

@@ -14,20 +14,22 @@
 <script>
 export default {
   name: "Player",
-  props: ["displayUser"], // 表示されているUserの情報
+  props: {
+    displayUser: Object // 表示されているUserの情報
+  },
   computed: {
     phase() {
-      return this.$store.getters.phase;
+      return this.$whim.state.phase;
     },
     isMe() {
-      return this.displayUser.id === this.$store.getters.accessUser.id;
+      return this.displayUser.id === this.$whim.accessUser.id;
     },
     appState() {
-      return this.$store.state.appState;
+      return this.$whim.state;
     },
     status() {
-      console.log(this.$store.getters.accessUser);
-      if (this.$store.getters.phase === "shuffling") {
+      console.log(this.$whim.accessUser);
+      if (this.phase === "shuffling") {
         return "shuffling";
       }
       if ((this.phase === "playing" && !this.isMe) || this.phase === "answer") {
@@ -36,33 +38,30 @@ export default {
       return "hidden";
     },
     voted() {
-      return this.$store.state.appState.votes?.some(
+      return this.appState.votes?.some(
         vote =>
-          vote.from === this.$store.state.accessUserId &&
+          vote.from === this.$whim.accessUserId &&
           vote.to === this.displayUser.id
       );
     },
     votedNames() {
-      const votes = this.$store.state.appState.votes;
-      if (!votes || this.$store.getters.phase === "voting") {
+      const votes = this.appState.votes;
+      if (!votes || this.phase === "voting") {
         return [];
       }
 
       return votes
         .filter(vote => vote.to === this.displayUser.id)
-        .map(
-          vote =>
-            this.$store.state.users.find(user => user.id === vote.from).name
-        );
+        .map(vote => this.$whim.users.find(user => user.id === vote.from).name);
     },
     containerClass() {
-      if (this.$store.getters.phase === "voting") {
+      if (this.phase === "voting") {
         if (this.voted) {
           return "voted";
         }
         if (
-          this.$store.state.appState.votes?.some(
-            vote => vote.from === this.$store.state.accessUserId
+          this.appState.votes?.some(
+            vote => vote.from === this.$whim.accessUserId
           )
         ) {
           return "";
@@ -74,17 +73,16 @@ export default {
   },
   methods: {
     vote() {
-      if (this.$store.getters.phase === "voting" && !this.voted) {
-        this.$store.dispatch("vote", {
-          from: this.$store.state.accessUserId,
+      if (this.phase === "voting" && !this.voted) {
+        this.$gameVote({
+          from: this.$whim.accessUserId,
           to: this.displayUser.id
         });
         // 終了判定
-        if (
-          this.$store.state.appState.votes.length >=
-          this.$store.state.users.length
-        ) {
-          this.$store.dispatch("phase", "disclosuring");
+        if (this.appState.votes.length >= this.$whim.users.length) {
+          this.$whim.assignState({
+            phase: "disclosuring"
+          });
         }
       }
     }

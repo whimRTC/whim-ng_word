@@ -9,7 +9,7 @@ export default {
   name: "Result",
   methods: {
     start() {
-      this.$store.dispatch("start");
+      this.$gameStart();
     }
   }
 };
