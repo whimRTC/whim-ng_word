@@ -39,13 +39,6 @@ Vue.prototype.$gameStart = () => {
     ngWords: ngWords
   });
 };
-Vue.prototype.$gameVote = ({ from, to }) => {
-  let votes = Vue.prototype.$whim.state.votes || [];
-  votes.push({ from, to });
-  Vue.prototype.$whim.assignState({
-    votes: votes
-  });
-};
 
 new Vue({
   store,

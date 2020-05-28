@@ -1,5 +1,5 @@
 <template>
-  <div class="container" :class="containerClass" @click="vote">
+  <div class="container">
     <div v-if="status === 'hidden'" class="card hidden">
       <span class="text--subtitle"> NGワード</span>
     </div>
@@ -35,82 +35,12 @@ export default {
         return "visible";
       }
       return "hidden";
-    },
-    voted() {
-      return this.appState.votes?.some(
-        vote =>
-          vote.from === this.$whim.accessUserId &&
-          vote.to === this.displayUser.id
-      );
-    },
-    votedNames() {
-      const votes = this.appState.votes;
-      if (!votes || this.phase === "voting") {
-        return [];
-      }
-
-      return votes
-        .filter(vote => vote.to === this.displayUser.id)
-        .map(vote => this.$whim.users.find(user => user.id === vote.from).name);
-    },
-    containerClass() {
-      if (this.phase === "voting") {
-        if (this.voted) {
-          return "voted";
-        }
-        if (
-          this.appState.votes?.some(
-            vote => vote.from === this.$whim.accessUserId
-          )
-        ) {
-          return "";
-        }
-        return "voting";
-      }
-      return "";
-    }
-  },
-  methods: {
-    vote() {
-      if (this.phase === "voting" && !this.voted) {
-        this.$gameVote({
-          from: this.$whim.accessUserId,
-          to: this.displayUser.id
-        });
-        // 終了判定
-        if (this.appState.votes.length >= this.$whim.users.length) {
-          this.$whim.assignState({
-            phase: "disclosuring"
-          });
-        }
-      }
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.vote {
-  display: none;
-  color: white;
-}
-
-.voted {
-  background: rgba(0, 0, 0, 0.4);
-  .vote {
-    display: block;
-  }
-}
-
-.voting {
-  &:hover {
-    background: rgba(0, 0, 0, 0.4);
-    .vote {
-      display: block;
-    }
-  }
-}
-
 .card {
   margin: 80px auto;
   width: 300px;
