@@ -24,7 +24,9 @@ export default {
   methods: {
     goAnswer() {
       this.$refs.countdown.abort();
-      this.$store.dispatch("phase", "answer");
+      this.$whim.assignState({
+        phase: "answer"
+      });
     },
 
     transform(props) {

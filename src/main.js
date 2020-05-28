@@ -1,7 +1,8 @@
 import Vue from "vue";
+import Vuex from "vuex";
 import App from "./App.vue";
-import store from "./store";
 import VueCountdown from "@chenfengyuan/vue-countdown";
+import whimClientVue from "whim-client-vue";
 
 Vue.component(VueCountdown.name, VueCountdown);
 
@@ -9,28 +10,42 @@ Vue.config.productionTip = false;
 
 import "./assets/sass/style.scss";
 
-// wh.imから room / users情報が送られてきたら登録
-window.addEventListener(
-  "message",
-  event => {
-    if (event.data.room) {
-      store.commit("setRoom", event.data.room);
-    }
-    if (event.data.accessUserId) {
-      store.commit("setAccessUserId", event.data.accessUserId);
-    }
-    if (event.data.users) {
-      store.commit("setUsers", event.data.users);
-    }
-    if (event.data.appState) {
-      store.commit("setAppState", event.data.appState);
-    }
-  },
-  false
-);
+const shuffle = ([...array]) => {
+  for (let i = array.length - 1; i >= 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
 
-// wh.im本体との通信を開始
-window.parent.postMessage("connect", document.referrer);
+Vue.use(Vuex);
+const store = new Vuex.Store();
+
+Vue.config.productionTip = false;
+Vue.use(whimClientVue, { store });
+
+const ngWordPatterns = require("@/assets/ng_word_patterns.json");
+
+Vue.prototype.$gameStart = () => {
+  const ngWordPattern = shuffle(
+    ngWordPatterns[Math.floor(Math.random() * ngWordPatterns.length)]
+  );
+  let ngWord = {};
+  Vue.prototype.$whim.users.forEach((user, i) => {
+    ngWord[user.id] = ngWordPattern[i];
+  });
+  Vue.prototype.$whim.assignState({
+    phase: "shuffling",
+    ngWord: ngWord
+  });
+};
+Vue.prototype.$gameVote = ({ from, to }) => {
+  let votes = Vue.prototype.$whim.state.votes || [];
+  votes.push({ from, to });
+  Vue.prototype.$whim.assignState({
+    votes: votes
+  });
+};
 
 new Vue({
   store,
