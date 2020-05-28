@@ -24,19 +24,19 @@ const store = new Vuex.Store();
 Vue.config.productionTip = false;
 Vue.use(whimClientVue, { store });
 
-const ngWordPatterns = require("@/assets/ng_word_patterns.json");
+const NG_WORD_PATTERNS = require("@/assets/ng_word_patterns.json");
 
 Vue.prototype.$gameStart = () => {
-  const ngWordPattern = shuffle(
-    ngWordPatterns[Math.floor(Math.random() * ngWordPatterns.length)]
+  const shuffledPatterns = shuffle(
+    NG_WORD_PATTERNS[Math.floor(Math.random() * NG_WORD_PATTERNS.length)]
   );
-  let ngWord = {};
+  let ngWords = {};
   Vue.prototype.$whim.users.forEach((user, i) => {
-    ngWord[user.id] = ngWordPattern[i];
+    ngWords[user.id] = shuffledPatterns[i];
   });
   Vue.prototype.$whim.assignState({
     phase: "shuffling",
-    ngWord: ngWord
+    ngWords: ngWords
   });
 };
 Vue.prototype.$gameVote = ({ from, to }) => {

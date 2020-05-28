@@ -7,7 +7,7 @@
       <img :src="require('@/assets/shuffling.gif')" class="shuffling" />
     </div>
     <div v-else-if="status === 'visible'" class="card">
-      <span class="text--subtitle">{{ appState.ngWord[displayUser.id] }}</span>
+      <span class="text--subtitle">{{ appState.ngWords[displayUser.id] }}</span>
     </div>
   </div>
 </template>
