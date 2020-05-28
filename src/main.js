@@ -27,12 +27,12 @@ Vue.use(whimClientVue, { store });
 const NG_WORD_PATTERNS = require("@/assets/ng_word_patterns.json");
 
 Vue.prototype.$gameStart = () => {
-  const shuffledPatterns = shuffle(
+  const shuffledPattern = shuffle(
     NG_WORD_PATTERNS[Math.floor(Math.random() * NG_WORD_PATTERNS.length)]
   );
   let ngWords = {};
   Vue.prototype.$whim.users.forEach((user, i) => {
-    ngWords[user.id] = shuffledPatterns[i];
+    ngWords[user.id] = shuffledPattern[i];
   });
   Vue.prototype.$whim.assignState({
     phase: "shuffling",
