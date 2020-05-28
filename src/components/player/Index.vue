@@ -28,7 +28,6 @@ export default {
       return this.$whim.state;
     },
     status() {
-      console.log(this.$whim.accessUser);
       if (this.phase === "shuffling") {
         return "shuffling";
       }
