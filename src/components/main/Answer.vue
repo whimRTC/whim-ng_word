@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "Result",
+  name: "Answer",
   methods: {
     start() {
       this.$gameStart();
