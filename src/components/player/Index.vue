@@ -1,13 +1,15 @@
 <template>
   <div class="container">
     <div v-if="status === 'hidden'" class="card hidden">
-      <span class="text--subtitle"> NGワード</span>
+      <img :src="require('@/assets/logo.png')" class="img" />
     </div>
     <div v-else-if="status === 'shuffling'" class="card">
       <img :src="require('@/assets/shuffling.gif')" class="shuffling" />
     </div>
     <div v-else-if="status === 'visible'" class="card">
-      <span class="text--subtitle">{{ appState.ngWords[displayUser.id] }}</span>
+      <span class="text--body text">{{
+        appState.ngWords[displayUser.id]
+      }}</span>
     </div>
   </div>
 </template>
@@ -43,7 +45,7 @@ export default {
 <style lang="scss" scoped>
 .card {
   margin: 80px auto;
-  width: 300px;
+  width: 140px;
   height: 50px;
 
   border-radius: 4px;
@@ -52,8 +54,12 @@ export default {
   text-align: center;
 
   .shuffling {
-    width: 300px;
+    width: 140px;
     height: 50px;
+  }
+
+  .text {
+    line-height: 50px;
   }
 }
 
@@ -72,7 +78,7 @@ export default {
   bottom: 0;
   left: 0;
   margin: auto; /*上下左右中央に*/
-  width: 40px; /*widthの指定は必須*/
+  width: 120px; /*widthの指定は必須*/
   height: 40px; /*heightの指定は必須*/
 }
 .names {

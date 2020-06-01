@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <div class="text--subtitle title">タイムリミットまで</div>
+  <div class="container">
     <countdown
       :time="10 * 60 * 1000"
       @end="goAnswer"
@@ -12,8 +11,7 @@
         >{{ props.minutes }}:{{ props.seconds }}</template
       >
     </countdown>
-    <a class="fuwatto_btn yellow" @click="goAnswer">NGワード！</a>
-    <a class="fuwatto_btn grey" @click="goAnswer">ALLシャッフル</a>
+    <div class="fuwatto_btn yellow" @click="goAnswer">終了！</div>
   </div>
 </template>
 
@@ -39,48 +37,33 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-.select {
-  margin: 10px;
-}
-.title {
-  margin: 10px;
-}
-
-.icon {
-  width: 40px;
-  height: 40px;
-  vertical-align: middle;
-}
-
-.select_text {
-  width: 200px;
-  display: inline-block;
-  vertical-align: middle;
+.container {
+  display: flex;
+  justify-content: center;
 }
 
 .countdown {
-  display: block;
+  // display: inline-block;
   background: #000000;
   color: #fff;
   padding: 5px;
-  margin: 10px auto;
+  margin: 0px;
   font: 40px "f5.6";
   width: 140px;
 }
 
 .fuwatto_btn {
-  display: block;
+  // display: inline-block;
 
   color: #fff;
-  padding: 0.8em;
+  padding: 0.6em;
   text-decoration: none;
-  border-radius: 4px;
+  border-radius: 10px;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
     0 3px 1px -2px rgba(0, 0, 0, 0.2);
   transition: 0.3s ease-out;
 
-  width: 140px;
-  margin: 30px auto;
+  margin: auto 20px;
   text-align: center; /*一応BOX内の文字も中央寄せ*/
 
   &.yellow {

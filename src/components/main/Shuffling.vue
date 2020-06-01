@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <a class="fuwatto_btn_yellow">シャッフル中...</a>
-  </div>
+  <div></div>
 </template>
 
 <script>

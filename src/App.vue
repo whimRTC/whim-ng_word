@@ -4,9 +4,9 @@
 
     <Player
       v-for="user in $whim.users"
+      class="player"
       :key="user.id"
-      class="box"
-      :class="`pos${user.positionNumber}`"
+      :class="whimUserWindowClass(user)"
       :displayUser="user"
     />
   </div>
@@ -30,43 +30,11 @@ export default {
 
 <style lang="scss" scoped>
 .main {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 30%;
-  height: 30%;
+  position: relative;
+  margin: 0px auto;
   text-align: center;
-  background: rgba(256, 256, 256, 0.7);
   z-index: 1;
   border-radius: 10px;
-}
-
-.box {
-  width: 50%;
-  height: 50%;
-  position: absolute;
-  text-align: center;
-
-  &.pos1 {
-    top: 0%;
-    left: 0%;
-  }
-
-  &.pos2 {
-    top: 0%;
-    left: 50%;
-  }
-
-  &.pos3 {
-    top: 50%;
-    left: 0%;
-  }
-
-  &.pos4 {
-    top: 50%;
-    left: 50%;
-  }
 }
 </style>
 
