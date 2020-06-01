@@ -11,7 +11,7 @@ Vue.config.productionTip = false;
 import "./assets/sass/style.scss";
 
 Vue.config.productionTip = false;
-Vue.use(whimClientVue, { environment: "staging" });
+Vue.use(whimClientVue);
 
 new Vue({
   render: h => h(App)
