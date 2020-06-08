@@ -8208,13 +8208,11 @@ which@^2.0.1:
   dependencies:
     isexe "^2.0.0"
 
-whim-client-vue@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/whim-client-vue/-/whim-client-vue-1.0.5.tgz#9cea0668e0543646571ee61de0c185af5a5b4fe4"
-  integrity sha512-9bbsHr3F+y7o3Hx/eQ9Jgqs2h/7Yx39BvDxprwXraZflrcysKwGkNMY7zhE5uljVnW/TTJ9VYNO2YezIDw1QnA==
+whim-client-vue@^1.1.0:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/whim-client-vue/-/whim-client-vue-1.2.4.tgz#1a5aad8acafd585a004ce8cd05b3083eb185f8dc"
+  integrity sha512-RA0yWXhq9S8MSIKerFs+IQ8pP6WEpqRp0Tj9RMk98o7E7cbwPQkWAojrK/+ODASg5BWlvbH53OUTSU8ud0Ejdg==
   dependencies:
-    core-js "^3.6.4"
-    vue "^2.6.11"
     vuex "^3.1.3"
 
 word-wrap@~1.2.3:

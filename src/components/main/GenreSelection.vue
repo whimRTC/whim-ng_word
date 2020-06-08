@@ -19,7 +19,6 @@ export default {
   },
   methods: {
     start() {
-      console.log("start");
       this.gameStart();
     }
   },

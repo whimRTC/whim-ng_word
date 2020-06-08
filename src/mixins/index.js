@@ -16,7 +16,6 @@ export default {
       this.$whim.users.forEach((user, i) => {
         ngWords[user.id] = shuffledPattern[i];
       });
-      console.log(this.$whim.users);
       this.$whim.assignState({
         phase: "shuffling",
         ngWords: ngWords
