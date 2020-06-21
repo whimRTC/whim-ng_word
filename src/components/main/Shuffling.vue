@@ -4,14 +4,7 @@
 
 <script>
 export default {
-  name: "Shuffling",
-  mounted() {
-    setTimeout(() => {
-      this.$whim.assignState({
-        phase: "playing"
-      });
-    }, 2000);
-  }
+  name: "Shuffling"
 };
 </script>
 

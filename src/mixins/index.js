@@ -20,6 +20,11 @@ export default {
         phase: "shuffling",
         ngWords: ngWords
       });
+      setTimeout(() => {
+        this.$whim.assignState({
+          phase: "playing"
+        });
+      }, 2000);
     }
   }
 };
